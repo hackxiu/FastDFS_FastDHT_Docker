@@ -12,10 +12,6 @@ ENV HOME /root
 # 复制工具
 ADD soft ${HOME}
 
-# conf_配置
-COPY conf/fdfs/* /etc/fdfs/
-COPY conf/fdht/* /etc/fdht/
-
 RUN set -x \
     && apk update \
     && apk add --no-cache --virtual .build-deps alpine-sdk build-base perl-dev openssl-dev pcre-dev zlib-dev git bash gcc libc-dev make linux-headers curl gnupg libxslt-dev gd-dev geoip-dev \
@@ -25,6 +21,7 @@ RUN set -x \
     #进入目录解压所需源码
     && cd ${HOME} \
     && tar xvf libfastcommon-1.0.43.tar.gz \
+    && tar xvf db-4.7.25.tar.gz \
     && tar xvf fastdfs-6.06.tar.gz \
     && tar xvf fastdfs-nginx-module-1.22.tar.gz \
     && tar xvf fastdht-master.tar.gz \
@@ -34,6 +31,13 @@ RUN set -x \
     && cd ${HOME}/libfastcommon-1.0.43 \
     && ./make.sh \
     && ./make.sh install \
+    #&& ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so \
+
+    #安装_berkeley db
+    && ${HOME}/db-4.7.25/build_unix \
+    && ../dist/configure -prefix=/usr \
+    && make \
+    && make install \
 
     # 安装_fastdfs
     && cd ${HOME}/fastdfs-6.06/ \
@@ -56,6 +60,10 @@ RUN set -x \
     && rm -rf ${HOME}/* \
     && apk del .build-deps gcc libc-dev make openssl-dev linux-headers curl gnupg libxslt-dev gd-dev geoip-dev \
     && apk add --no-cache bash pcre-dev zlib-dev
+
+# conf_配置
+COPY conf/fdfs/* /etc/fdfs/
+COPY conf/fdht/* /etc/fdht/
 
 # 配置启动脚本，在启动时中根据环境变量替换nginx端口、fastdfs端口
 
