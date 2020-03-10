@@ -14,7 +14,8 @@ ADD soft ${HOME}
 
 #fastdfs_配置
 # conf
-COPY conf/* /etc/fdfs/
+COPY conf/fdfs/* /etc/fdfs/
+COPY conf/fdht/* /etc/fdht/
 
 RUN set -x \
     && apk update \
@@ -42,6 +43,7 @@ RUN set -x \
 
     # 安装_fastdht
     && cd ${HOME}/fastdht-master/ \
+    && sed -i "s?CFLAGS='-Wall -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE'?CFLAGS='-Wall -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I/usr/include/ -L/usr/lib/'?" make.sh \
     && ./make.sh clean \
     && ./make.sh \
     && ./make.sh install \
