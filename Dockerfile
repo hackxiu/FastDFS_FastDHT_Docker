@@ -39,7 +39,7 @@ RUN set -x \
     #&& ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so \
 
     #安装_berkeley db
-    && ${HOME}/db-4.7.25/build_unix \
+    && cd ${HOME}/db-4.7.25/build_unix \
     && ../dist/configure -prefix=/usr \
     && make \
     && make install \
