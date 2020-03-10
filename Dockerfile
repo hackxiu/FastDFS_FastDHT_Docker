@@ -12,6 +12,11 @@ ENV HOME /root
 # 复制工具
 ADD soft ${HOME}
 
+# conf_配置
+COPY conf/fdfs/* /etc/fdfs/
+COPY conf/fdht/* /etc/fdht/
+
+# 执行命令
 RUN set -x \
     && apk update \
     && apk add --no-cache --virtual .build-deps alpine-sdk build-base perl-dev openssl-dev pcre-dev zlib-dev git bash gcc libc-dev make linux-headers curl gnupg libxslt-dev gd-dev geoip-dev \
@@ -60,10 +65,6 @@ RUN set -x \
     && rm -rf ${HOME}/* \
     && apk del .build-deps gcc libc-dev make openssl-dev linux-headers curl gnupg libxslt-dev gd-dev geoip-dev \
     && apk add --no-cache bash pcre-dev zlib-dev
-
-# conf_配置
-COPY conf/fdfs/* /etc/fdfs/
-COPY conf/fdht/* /etc/fdht/
 
 # 配置启动脚本，在启动时中根据环境变量替换nginx端口、fastdfs端口
 
