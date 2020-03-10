@@ -12,8 +12,7 @@ ENV HOME /root
 # 复制工具
 ADD soft ${HOME}
 
-#fastdfs_配置
-# conf
+# conf_配置
 COPY conf/fdfs/* /etc/fdfs/
 COPY conf/fdht/* /etc/fdht/
 
