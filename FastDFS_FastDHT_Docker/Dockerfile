@@ -61,6 +61,7 @@ RUN set -x \
 
     # 安装_jemalloc_内存优化模块
     && cd ${HOME}/jemalloc-5.2.1/ \
+    && ./autogen.sh \
     && ./make \
     && ./make install \
 
