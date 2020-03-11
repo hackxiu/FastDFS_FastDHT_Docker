@@ -15,8 +15,8 @@ ENV HOME /root
 ADD soft ${HOME}
 
 # conf_配置
-COPY conf/fdfs/* /etc/fdfs/
-COPY conf/fdht/* /etc/fdht/
+COPY ./conf/fdfs/* /etc/fdfs/
+COPY ./conf/fdht/* /etc/fdht/
 
 # 执行命令
 RUN set -x \
