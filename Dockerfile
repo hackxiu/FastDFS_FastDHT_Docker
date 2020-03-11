@@ -97,7 +97,7 @@ fi \n\
 sed -i \"s/^tracker_server=.*$/tracker_server=\$IP:\$FDFS_PORT/\" /etc/fdfs/client.conf; \n\
 sed -i \"s/^tracker_server=.*$/tracker_server=\$IP:\$FDFS_PORT/\" /etc/fdfs/storage.conf; \n\
 sed -i \"s/^tracker_server=.*$/tracker_server=\$IP:\$FDFS_PORT/\" /etc/fdfs/mod_fastdfs.conf; \n\
-sed -i \"s/^bind_addr=.*$/bind_addr=\$IP/\" /etc/fdfs/fdhtd.conf.conf; \n\
+sed -i \"s/^bind_addr=.*$/bind_addr=\$IP/\" /etc/fdfs/fdhtd.conf; \n\
 sed -i \"s/^group0.*$/group0=\$IP:\$FDHT_PORT/\" /etc/fdht/fdht_servers.conf; \n\
 sed -i \"4d\" /etc/fdht/fdht_servers.conf; \n\
 sed -i \"s/^check_file_duplicate=.*$/check_file_duplicate=1/g\" /etc/fdfs/storage.conf; \n\
