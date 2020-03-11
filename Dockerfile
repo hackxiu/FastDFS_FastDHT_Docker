@@ -1,6 +1,8 @@
 #基础镜像
 FROM alpine:3.10
 
+MAINTAINER Hackxiu <hackxiu@gmail.com>
+
 #环境变量
 ENV TZ Asia/Shanghai
 RUN apk add -U tzdata
