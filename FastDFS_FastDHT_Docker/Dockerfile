@@ -1,5 +1,5 @@
 #基础镜像
-FROM alpine:3.10
+FROM alpine:latest
 
 MAINTAINER Hackxiu <hackxiu@gmail.com>
 
@@ -32,12 +32,13 @@ RUN set -x \
     && tar xvf fastdfs-6.06.tar.gz \
     && tar xvf fastdfs-nginx-module-1.22.tar.gz \
     && tar xvf fastdht-master.tar.gz \
+    && tar xvf jemalloc-5.2.1.tar.gz \
     && tar xvf nginx-1.16.1.tar.gz \
 
     # 安装_libfastcommon
     && cd ${HOME}/libfastcommon-1.0.43 \
-    && ./make.sh \
-    && ./make.sh install \
+    && ./make \
+    && ./make install \
     #&& ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so \
 
     #安装_berkeley db
@@ -48,19 +49,24 @@ RUN set -x \
 
     # 安装_fastdfs
     && cd ${HOME}/fastdfs-6.06/ \
-    && ./make.sh \
-    && ./make.sh install \
+    && ./make \
+    && ./make install \
 
     # 安装_fastdht
     && cd ${HOME}/fastdht-master/ \
     && sed -i "s?CFLAGS='-Wall -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE'?CFLAGS='-Wall -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I/usr/include/ -L/usr/lib/'?" make.sh \
-    && ./make.sh clean \
-    && ./make.sh \
-    && ./make.sh install \
+    && ./make clean \
+    && ./make \
+    && ./make install \
+
+    # 安装_jemalloc_内存优化模块
+    && cd ${HOME}/jemalloc-5.2.1/ \
+    && ./make \
+    && ./make install \
 
     # 获取nginx源码，与fastdfs插件一起编译
     && cd ${HOME}/nginx-1.16.1/ \
-    && ./configure --add-module=${HOME}/fastdfs-nginx-module-1.22/src/ \
+    && ./configure --with-pcre-jit --with-ld-opt='-ljemalloc' --add-module=${HOME}/fastdfs-nginx-module-1.22/src/ \
     && make && make install \
 
     # 清理文件
