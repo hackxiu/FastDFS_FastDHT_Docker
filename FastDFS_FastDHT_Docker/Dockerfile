@@ -44,8 +44,8 @@ RUN set -x \
     #安装_berkeley db
     && cd ${HOME}/db-4.7.25/build_unix \
     && ../dist/configure -prefix=/usr \
-    && make.sh \
-    && make.sh install \
+    && make \
+    && make install \
 
     # 安装_fastdfs
     && cd ${HOME}/fastdfs-6.06/ \
@@ -61,13 +61,13 @@ RUN set -x \
 
     # 安装_jemalloc_内存优化模块
     && cd ${HOME}/jemalloc-5.2.1/ \
-    && ./make.sh \
-    && ./make.sh install \
+    && ./make \
+    && ./make install \
 
     # 获取nginx源码，与fastdfs插件一起编译
     && cd ${HOME}/nginx-1.16.1/ \
     && ./configure --with-pcre-jit --with-ld-opt='-ljemalloc' --add-module=${HOME}/fastdfs-nginx-module-1.22/src/ \
-    && make.sh && make.sh install \
+    && make && make install \
 
     # 清理文件
     && rm -rf ${HOME}/* \
