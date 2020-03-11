@@ -12,7 +12,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ENV HOME /root
 
 # 复制工具
-ADD ./soft ${HOME}
+ADD ../soft ${HOME}
 
 # conf_配置
 COPY ./conf/fdfs/* /etc/fdfs/
