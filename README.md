@@ -1,11 +1,11 @@
 # FastDFS+FastDHT
-使用docker-compose创建FastDFS+FastDHT单机版服务(tracker,storage,fastdht,nginx)
+使用docker-compose创建FastDFS+FastDHT版服务(tracker,storage,fastdht,nginx)
 ## 搭建教程
 1. 安装docker和docker-compose  
 2. 安装git    
 3. clone项目    
  ```
- git clone https://qbanxiaoli@github.com/qbanxiaoli/fastdfs.git 
+ git clone https://hackxiu@github.com/hackxiu/FastDFS_FastDHT_Docker.git
  ```    
 4. 进入fastdfs目录  
 ```
@@ -44,7 +44,7 @@
 ```
  该镜像已经上传到公开镜像仓库，也可跳过镜像构建步骤，直接从Docker Hub或者阿里云容器镜像仓库上拉取，linux环境下可用如下命令拉取镜像后直接运行容器
 ```
- docker pull qbanxiaoli/fastdfs 或者 docker pull registry.cn-hangzhou.aliyuncs.com/qbanxiaoli/fastdfs
+ docker pull lovetutu/fastdfs_fastdht 或者 docker pull registry.cn-hangzhou.aliyuncs.com/lovetutu/fastdfs_fastdht
 
- docker run -d --restart=always --net=host --name=fastdfs -e IP=192.168.0.105 -v ～/fastdfs:/var/local qbanxiaoli/fastdfs
+ docker run -d --restart=always --net=host --name=fastdfs -e IP=192.168.0.105 -v ～/fastdfs:/var/local lovetutu/fastdfs
 ```
