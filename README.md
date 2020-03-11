@@ -8,17 +8,17 @@
  git clone https://hackxiu@github.com/hackxiu/FastDFS_FastDHT_Docker.git
  ```    
 4. 进入fastdfs目录  
-```
+ ```    
  cd fastdfs
-```   
-5. 修改docker-compose.yml，指定IP
-
-6. 执行docker-compose命令，linux环境下需要指定使用docker-compose-linux.yml文件
-```
- docker-compose up -d 或者 docker-compose -f docker-compose-linux.yml up -d
-```
+ ```    
+5. 自动获取 Docker IP,不需要设置IP  
+6. 设置数据存储目录 默认 /home/dfs , 需要把目录挂载到  /home/dfs 后
+即可存储数据到指定目录
+ ```    
 7. 至此一个单机版的fastdfs文件系统已经搭建完成，下面测试fastdfs是否搭建成功
-```
+ ```    
+8. 默认开启端口 nginx:8080 ,fastdht: 11411 , fastdfs:22122 , 22122 , 23000
+ ```    
  docker exec -it fastdfs /bin/bash 
 
  echo "Hello FastDFS!">index.html
