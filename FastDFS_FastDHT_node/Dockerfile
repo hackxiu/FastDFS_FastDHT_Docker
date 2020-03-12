@@ -1,5 +1,5 @@
 #基础镜像
-FROM alpine:3.10
+FROM alpine:latest
 
 MAINTAINER Hackxiu <hackxiu@gmail.com>
 
