@@ -21,7 +21,7 @@ COPY /conf/fdht/* /etc/fdht/
 # 执行命令
 RUN set -x \
     && apk update \
-    && apk add --no-cache --virtual .build-deps alpine-sdk build-base perl-dev openssl-dev pcre-dev zlib-dev git bash gcc libc-dev make linux-headers curl gnupg libxslt-dev gd-dev geoip-dev \
+    && apk add --no-cache --virtual .build-deps alpine-sdk build-base perl-dev openssl-dev pcre-dev zlib-dev git bash gcc libc-dev make linux-headers curl gnupg libxslt-dev gd-dev geoip-dev autoconf \
     && echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repositories \
     && echo "http://mirrors.aliyun.com/alpine/latest-stable/community/" >> /etc/apk/repositories \
 
