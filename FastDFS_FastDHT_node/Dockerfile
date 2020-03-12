@@ -5,8 +5,6 @@ MAINTAINER Hackxiu <hackxiu@gmail.com>
 
 #环境变量
 ENV TZ Asia/Shanghai
-RUN apk add -U tzdata
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 #主目录
 ENV HOME /root
@@ -20,6 +18,8 @@ COPY /conf/fdht/* /etc/fdht/
 
 # 执行命令
 RUN set -x \
+    && apk add -U tzdata \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && apk update \
     && apk add --no-cache --virtual .build-deps alpine-sdk build-base perl-dev openssl-dev pcre-dev zlib-dev git bash gcc libc-dev make linux-headers curl gnupg libxslt-dev gd-dev geoip-dev autoconf \
     && echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repositories \
@@ -75,7 +75,7 @@ RUN set -x \
 
     # 清理文件
     && rm -rf ${HOME}/* \
-    && apk del .build-deps gcc libc-dev make openssl-dev linux-headers curl gnupg libxslt-dev gd-dev geoip-dev \
+    && apk del .build-deps gcc libc-dev make openssl-dev linux-headers curl gnupg libxslt-dev gd-dev geoip-dev autoconf \
     && apk add --no-cache bash pcre-dev zlib-dev
 
 # 配置启动脚本，在启动时中根据环境变量替换nginx端口、fastdfs端口
