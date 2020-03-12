@@ -62,8 +62,9 @@ RUN set -x \
     # 安装_jemalloc_内存优化模块
     && cd ${HOME}/jemalloc-5.2.1/ \
     && ./autogen.sh \
-    && ./make \
-    && ./make install \
+    #&& make install_bin install_include install_lib \
+    && make \
+    && make install \
 
     # 获取nginx源码，与fastdfs插件一起编译
     && cd ${HOME}/nginx-1.16.1/ \
