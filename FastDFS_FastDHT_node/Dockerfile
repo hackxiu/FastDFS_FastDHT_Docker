@@ -21,7 +21,7 @@ COPY /conf/fdht/* /etc/fdht/
 # 执行命令
 RUN set -x \
     && apk update \
-    && apk add --no-cache --virtual .build-deps alpine-sdk build-base perl-dev openssl-dev pcre-dev zlib-dev git bash gcc libc-dev make linux-headers curl gnupg libxslt-dev gd-dev geoip-dev \
+    && apk add --no-cache --virtual .build-deps alpine-sdk build-base perl-dev openssl-dev pcre-dev zlib-dev git bash gcc libc-dev make linux-headers curl gnupg libxslt-dev gd-dev geoip-dev autoconf \
     && echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repositories \
     && echo "http://mirrors.aliyun.com/alpine/latest-stable/community/" >> /etc/apk/repositories \
 
@@ -32,6 +32,7 @@ RUN set -x \
     && tar xvf fastdfs-6.06.tar.gz \
     && tar xvf fastdfs-nginx-module-1.22.tar.gz \
     && tar xvf fastdht-master.tar.gz \
+    && tar xvf jemalloc-5.2.1.tar.gz \
     && tar xvf nginx-1.16.1.tar.gz \
 
     # 安装_libfastcommon
@@ -58,9 +59,16 @@ RUN set -x \
     && ./make.sh \
     && ./make.sh install \
 
+    # 安装_jemalloc_内存优化模块
+    && cd ${HOME}/jemalloc-5.2.1/ \
+    && ./autogen.sh \
+    #&& make install_bin install_include install_lib \
+    && make \
+    && make install \
+
     # 获取nginx源码，与fastdfs插件一起编译
     && cd ${HOME}/nginx-1.16.1/ \
-    && ./configure --add-module=${HOME}/fastdfs-nginx-module-1.22/src/ \
+    && ./configure --with-pcre-jit --with-ld-opt='-ljemalloc' --add-module=${HOME}/fastdfs-nginx-module-1.22/src/ \
     && make && make install \
 
     # 清理文件
