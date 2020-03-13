@@ -68,8 +68,6 @@ RUN set -x \
 
     # 获取nginx源码，与fastdfs插件一起编译
     && mkdir -p /usr/local/nginx/module \
-    && mkdir -p /home/dfs/data \
-    && ln -s /home/dfs/data/ /home/dfs/data/M00 \
     && cp -a -r ${HOME}/fastdfs-nginx-module-1.22/ /usr/local/nginx/module/ \
     && cd ${HOME}/nginx-1.16.1/ \
     && ./configure --with-pcre-jit --with-ld-opt='-ljemalloc' --add-module=/usr/local/nginx/module/fastdfs-nginx-module-1.22/src/ \
@@ -100,7 +98,8 @@ EXPOSE 11411
 
 # 创建启动脚本
 RUN echo -e "\
-mkdir -p /home/dfs/storage/data /home/dfs/tracker /home/dfs/fastdht; \n\
+mkdir -p /home/dfs/data /home/dfs/storage/data /home/dfs/tracker /home/dfs/fastdht; \n\
+ln -s /home/dfs/data/ /home/dfs/data/M00; \n\
 sed -i \"s/listen\ .*$/listen\ \$WEB_PORT;/g\" /usr/local/nginx/conf/nginx.conf; \n\
 sed -i \"s/http.server_port=.*$/http.server_port=\$WEB_PORT/g\" /etc/fdfs/storage.conf; \n\
 if [ \"\$IP\" = \"\" ]; then \n\
