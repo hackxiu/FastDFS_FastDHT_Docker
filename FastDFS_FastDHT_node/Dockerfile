@@ -68,6 +68,7 @@ RUN set -x \
 
     # 获取nginx源码，与fastdfs插件一起编译
     && mkdir -p /usr/local/nginx/module \
+    && mkdir -p /home/dfs/data \
     && ln -s /home/dfs/data/ /home/dfs/data/M00 \
     && cp -a -r ${HOME}/fastdfs-nginx-module-1.22/ /usr/local/nginx/module/ \
     && cd ${HOME}/nginx-1.16.1/ \
