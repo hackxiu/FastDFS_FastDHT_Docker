@@ -68,6 +68,7 @@ RUN set -x \
 
     # 获取nginx源码，与fastdfs插件一起编译
     && mkdir -p /usr/local/nginx/module \
+    && ln -s /home/dfs/data/ /home/dfs/data/M00 \
     && cp -a -r ${HOME}/fastdfs-nginx-module-1.22/ /usr/local/nginx/module/ \
     && cd ${HOME}/nginx-1.16.1/ \
     && ./configure --with-pcre-jit --with-ld-opt='-ljemalloc' --add-module=/usr/local/nginx/module/fastdfs-nginx-module-1.22/src/ \
