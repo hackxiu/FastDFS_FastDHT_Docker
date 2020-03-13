@@ -72,6 +72,8 @@ RUN set -x \
     && cd ${HOME}/nginx-1.16.1/ \
     && ./configure --with-pcre-jit --with-ld-opt='-ljemalloc' --add-module=/usr/local/nginx/module/fastdfs-nginx-module-1.22/src/ \
     && make && make install \
+    && mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx_conf.baks \
+    && cp /etc/fdfs/nginx.conf /usr/local/nginx/conf \
 
     # 清理文件
     && rm -rf ${HOME}/* \
