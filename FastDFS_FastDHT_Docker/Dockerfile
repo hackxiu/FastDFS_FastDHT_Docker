@@ -83,7 +83,7 @@ RUN set -x \
 # 配置启动脚本，在启动时中根据环境变量替换nginx端口、fastdfs端口
 
 # 数据路径
-ENV Data_Pach /home/dfs/fastdfs
+ENV Data_Pach \/home\/dfs\/fastdfs
 
 # 默认nginx端口
 ENV WEB_PORT 8080
