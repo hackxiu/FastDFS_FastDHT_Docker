@@ -82,6 +82,9 @@ RUN set -x \
 
 # 配置启动脚本，在启动时中根据环境变量替换nginx端口、fastdfs端口
 
+# 数据路径
+ENV Data_Pach /home/dfs/fastdfs
+
 # 默认nginx端口
 ENV WEB_PORT 8080
 
@@ -102,15 +105,29 @@ EXPOSE 11411
 RUN echo -e "\
 mkdir -p /home/dfs/fastdfs/data; \n\
 ln -s /home/dfs/fastdfs/data/ /home/dfs/fastdfs/data/M00; \n\
-sed -i \"s/listen\ .*$/listen\ \$WEB_PORT;/g\" /usr/local/nginx/conf/nginx.conf; \n\
+sed -i \"s/^base_path=.*$/base_path=\$Data_Pach/\" /etc/fdfs/client.conf; \n\
+sed -i \"s/^base_path=.*$/base_path=\$Data_Pach/\" /etc/fdfs/storage.conf; \n\
+sed -i \"s/^store_path0=.*$/store_path0=\$Data_Pach/\" /etc/fdfs/storage.conf; \n\
+sed -i \"s/^base_path=.*$/base_path=\$Data_Pach/\" /etc/fdfs/tracker.conf; \n\
+sed -i \"s/^store_path0=.*$/store_path0=\$Data_Pach/\" /etc/fdfs/mod_fastdfs.conf; \n\
+sed -i \"s/^base_path=.*$/base_path=\$Data_Pach/\" /etc/fdht/fdht_client.conf; \n\
+sed -i \"s/^base_path=.*$/base_path=\$Data_Pach/\" /etc/fdht/fdhtd.conf; \n\
+sed -i \"s/http.tracker_server_port=.*$/http.tracker_server_port=\$WEB_PORT/g\" /etc/fdfs/client.conf; \n\
 sed -i \"s/http.server_port=.*$/http.server_port=\$WEB_PORT/g\" /etc/fdfs/storage.conf; \n\
+sed -i \"s/http.server_port=.*$/http.server_port=\$WEB_PORT/g\" /etc/fdfs/tracker.conf; \n\
+sed -i \"s/listen\ .*$/listen\ \$WEB_PORT;/g\" /usr/local/nginx/conf/nginx.conf; \n\
 if [ \"\$IP\" = \"\" ]; then \n\
     IP=\`ifconfig eth0 | grep inet | awk '{print \$2}'| awk -F: '{print \$2}'\`; \n\
 fi \n\
 sed -i \"s/^tracker_server=.*$/tracker_server=\$IP:\$FDFS_PORT/\" /etc/fdfs/client.conf; \n\
-sed -i \"s/^tracker_server=.*$/tracker_server=\$IP:\$FDFS_PORT/\" /etc/fdfs/storage.conf; \n\
+sed -i \"s/^bind_addr=.*$/bind_addr=\$IP/\" /etc/fdfs/storage.conf; \n\
+sed -i \"s/^port=.*$/port=\$FDFSD_PORT/\" /etc/fdfs/storage.conf; \n\
+sed -i \"s/^bind_addr=.*$/bind_addr=\$IP/\" /etc/fdfs/tracker.conf; \n\
+sed -i \"s/^port=.*$/port=\$FDFS_PORT/\" /etc/fdfs/tracker.conf; \n\
 sed -i \"s/^tracker_server=.*$/tracker_server=\$IP:\$FDFS_PORT/\" /etc/fdfs/mod_fastdfs.conf; \n\
+sed -i \"s/^storage_server_port=.*$/storage_server_port=\$FDFSD_PORT/\" /etc/fdfs/mod_fastdfs.conf; \n\
 sed -i \"s/^bind_addr=.*$/bind_addr=\$IP/\" /etc/fdht/fdhtd.conf; \n\
+sed -i \"s/^port=.*$/port=\$FDHT_PORT/\" /etc/fdht/fdhtd.conf; \n\
 sed -i \"s/^group0.*$/group0=\$IP:\$FDHT_PORT/\" /etc/fdht/fdht_servers.conf; \n\
 sed -i \"4d\" /etc/fdht/fdht_servers.conf; \n\
 sed -i \"s/^check_file_duplicate=.*$/check_file_duplicate=1/g\" /etc/fdfs/storage.conf; \n\
