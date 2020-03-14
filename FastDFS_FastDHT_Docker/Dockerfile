@@ -83,7 +83,7 @@ RUN set -x \
 # 配置启动脚本，在启动时中根据环境变量替换nginx端口、fastdfs端口
 
 # 环境变量
-ENV WEB_PORT=8080 FDHT_PORT=11411 FDFS_PORT=22122 FDFSD_PORT=23000 Data_Pach="\/home\/dfs\/fastdfs"
+ENV WEB_PORT=8080 FDHT_PORT=11411 FDFS_PORT=22122 FDFSD_PORT=23000 Data_Pach=\\/home\\/dfs\\/fastdfs
 
 # PORT
 EXPOSE 8080 11411 22122 23000
