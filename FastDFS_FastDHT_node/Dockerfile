@@ -100,8 +100,8 @@ EXPOSE 11411
 
 # 创建启动脚本
 RUN echo -e "\
-mkdir -p /home/dfs/data /home/dfs/storage/data /home/dfs/tracker /home/dfs/fastdht; \n\
-ln -s /home/dfs/data/ /home/dfs/data/M00; \n\
+mkdir -p /home/dfs/fastdfs/data; \n\
+ln -s /home/dfs/fastdfs/data/ /home/dfs/fastdfs/data/M00; \n\
 sed -i \"s/listen\ .*$/listen\ \$WEB_PORT;/g\" /usr/local/nginx/conf/nginx.conf; \n\
 sed -i \"s/http.server_port=.*$/http.server_port=\$WEB_PORT/g\" /etc/fdfs/storage.conf; \n\
 if [ \"\$IP\" = \"\" ]; then \n\
