@@ -3,11 +3,8 @@ FROM alpine:latest
 
 MAINTAINER Hackxiu <hackxiu@gmail.com>
 
-#环境变量
-ENV TZ Asia/Shanghai
-
-#主目录
-ENV HOME /root
+# 环境变量 # 配置启动环境变量脚本，在启动时中根据环境变量替换nginx端口、fastdfs端口
+ENV TZ=Asia/Shanghai HOME=/root Data_tracker="\/home\/dfs\/tracker" Data_storage="\/home\/dfs\/storage" Data_fdht="\/home\/dfs\/fdht" WEB_PORT=8080 FDHT_PORT=11411 FDFS_PORT=22122 FDFSD_PORT=23000
 
 # 复制工具
 ADD soft ${HOME}
@@ -80,18 +77,13 @@ RUN set -x \
     && apk del .build-deps gcc libc-dev make openssl-dev linux-headers curl gnupg libxslt-dev gd-dev geoip-dev autoconf \
     && apk add --no-cache bash pcre-dev zlib-dev
 
-# 配置启动脚本，在启动时中根据环境变量替换nginx端口、fastdfs端口
-
-# 环境变量
-ENV Data_tracker="\/home\/dfs\/tracker" Data_storage="\/home\/dfs\/storage" Data_fdht="\/home\/dfs\/fdht" WEB_PORT=8080 FDHT_PORT=11411 FDFS_PORT=22122 FDFSD_PORT=23000
-
 # PORT
 EXPOSE 8080 11411 22122 23000
 
 # 创建启动脚本
 RUN echo -e "\
 #!/bin/bash; \n\
-mkdir -p /home/dfs/storage/data /home/dfs/storage/tracker /home/dfs/storage/fdht; \n\
+mkdir -p /home/dfs/storage/data /home/dfs/tracker /home/dfs/fdht; \n\
 ln -s /home/dfs/storage/data/ /home/dfs/storage/data/M00; \n\
 sed -i \"s/^base_path = .*$/base_path = \$Data_storage/\" /etc/fdfs/client.conf; \n\
 sed -i \"s/^base_path = .*$/base_path = \$Data_storage/\" /etc/fdfs/storage.conf; \n\
