@@ -83,7 +83,7 @@ RUN set -x \
 # 配置启动脚本，在启动时中根据环境变量替换nginx端口、fastdfs端口
 
 # 环境变量
-ENV Data_Pach="\/home\/dfs\/fastdfs" WEB_PORT=8080 FDHT_PORT=11411 FDFS_PORT=22122 FDFSD_PORT=23000
+ENV Data_tracker="\/home\/dfs\/tracker" Data_storage="\/home\/dfs\/storage" Data_fdht="\/home\/dfs\/fdht" WEB_PORT=8080 FDHT_PORT=11411 FDFS_PORT=22122 FDFSD_PORT=23000
 
 # PORT
 EXPOSE 8080 11411 22122 23000
@@ -91,15 +91,15 @@ EXPOSE 8080 11411 22122 23000
 # 创建启动脚本
 RUN echo -e "\
 #!/bin/bash; \n\
-mkdir -p /home/dfs/fastdfs/data; \n\
-ln -s /home/dfs/fastdfs/data/ /home/dfs/fastdfs/data/M00; \n\
-sed -i \"s/^base_path = .*$/base_path = \$Data_Pach/\" /etc/fdfs/client.conf; \n\
-sed -i \"s/^base_path = .*$/base_path = \$Data_Pach/\" /etc/fdfs/storage.conf; \n\
-sed -i \"s/^store_path0 = .*$/store_path0 = \$Data_Pach/\" /etc/fdfs/storage.conf; \n\
-sed -i \"s/^base_path = .*$/base_path = \$Data_Pach/\" /etc/fdfs/tracker.conf; \n\
-sed -i \"s/^store_path0=.*$/store_path0=\$Data_Pach/\" /etc/fdfs/mod_fastdfs.conf; \n\
-sed -i \"s/^base_path=.*$/base_path=\$Data_Pach/\" /etc/fdht/fdht_client.conf; \n\
-sed -i \"s/^base_path=.*$/base_path=\$Data_Pach/\" /etc/fdht/fdhtd.conf; \n\
+mkdir -p /home/dfs/storage/data /home/dfs/storage/tracker /home/dfs/storage/fdht; \n\
+ln -s /home/dfs/storage/data/ /home/dfs/storage/data/M00; \n\
+sed -i \"s/^base_path = .*$/base_path = \$Data_storage/\" /etc/fdfs/client.conf; \n\
+sed -i \"s/^base_path = .*$/base_path = \$Data_storage/\" /etc/fdfs/storage.conf; \n\
+sed -i \"s/^store_path0 = .*$/store_path0 = \$Data_storage/\" /etc/fdfs/storage.conf; \n\
+sed -i \"s/^base_path = .*$/base_path = \$Data_tracker/\" /etc/fdfs/tracker.conf; \n\
+sed -i \"s/^store_path0=.*$/store_path0=\$Data_storage/\" /etc/fdfs/mod_fastdfs.conf; \n\
+sed -i \"s/^base_path=.*$/base_path=\$Data_fdht/\" /etc/fdht/fdht_client.conf; \n\
+sed -i \"s/^base_path=.*$/base_path=\$Data_fdht/\" /etc/fdht/fdhtd.conf; \n\
 sed -i \"s/http.tracker_server_port = .*$/http.tracker_server_port = \$WEB_PORT/g\" /etc/fdfs/client.conf; \n\
 sed -i \"s/http.server_port = .*$/http.server_port = \$WEB_PORT/g\" /etc/fdfs/storage.conf; \n\
 sed -i \"s/http.server_port = .*$/http.server_port = \$WEB_PORT/g\" /etc/fdfs/tracker.conf; \n\
