@@ -93,14 +93,13 @@ RUN echo -e "\
 #!/bin/bash; \n\
 mkdir -p /home/dfs/fastdfs/data; \n\
 ln -s /home/dfs/fastdfs/data/ /home/dfs/fastdfs/data/M00; \n\
-SRC_PATH=${Data_Pach}; \n\
-sed -i \"s/^base_path=.*$/base_path=\$SRC_PATH/\" /etc/fdfs/client.conf; \n\
-sed -i \"s/^base_path=.*$/base_path=\$SRC_PATH/\" /etc/fdfs/storage.conf; \n\
-sed -i \"s/^store_path0=.*$/store_path0=\$SRC_PATH/\" /etc/fdfs/storage.conf; \n\
-sed -i \"s/^base_path=.*$/base_path=\$SRC_PATH/\" /etc/fdfs/tracker.conf; \n\
-sed -i \"s/^store_path0=.*$/store_path0=\$SRC_PATH/\" /etc/fdfs/mod_fastdfs.conf; \n\
-sed -i \"s/^base_path=.*$/base_path=\$SRC_PATH/\" /etc/fdht/fdht_client.conf; \n\
-sed -i \"s/^base_path=.*$/base_path=\$SRC_PATH/\" /etc/fdht/fdhtd.conf; \n\
+sed -i \"s/^base_path=.*$/base_path=\$Data_Pach/\" /etc/fdfs/client.conf; \n\
+sed -i \"s/^base_path=.*$/base_path=\$Data_Pach/\" /etc/fdfs/storage.conf; \n\
+sed -i \"s/^store_path0=.*$/store_path0=\$Data_Pach/\" /etc/fdfs/storage.conf; \n\
+sed -i \"s/^base_path=.*$/base_path=\$Data_Pach/\" /etc/fdfs/tracker.conf; \n\
+sed -i \"s/^store_path0=.*$/store_path0=\$Data_Pach/\" /etc/fdfs/mod_fastdfs.conf; \n\
+sed -i \"s/^base_path=.*$/base_path=\$Data_Pach/\" /etc/fdht/fdht_client.conf; \n\
+sed -i \"s/^base_path=.*$/base_path=\$Data_Pach/\" /etc/fdht/fdhtd.conf; \n\
 sed -i \"s/http.tracker_server_port=.*$/http.tracker_server_port=\$WEB_PORT/g\" /etc/fdfs/client.conf; \n\
 sed -i \"s/http.server_port=.*$/http.server_port=\$WEB_PORT/g\" /etc/fdfs/storage.conf; \n\
 sed -i \"s/http.server_port=.*$/http.server_port=\$WEB_PORT/g\" /etc/fdfs/tracker.conf; \n\
